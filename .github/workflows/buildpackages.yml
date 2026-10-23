@@ -2,7 +2,6 @@ name: Build Packages
 
 on:
   push:
-    branches: [main]
     tags: ["v*"]
   pull_request:
   workflow_dispatch:
@@ -16,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        package: [AutoUpdater, Blocky, Collab, PMERConverter]
+        package: [AutoUpdater, Blocky, Collab, PMERConverter, ItemReferences, RoleReferences, RoomReferences]
     steps:
       - uses: actions/checkout@v4
 
