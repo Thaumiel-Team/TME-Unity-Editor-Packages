@@ -1,0 +1,59 @@
+name: Update Info
+
+on:
+  workflow_run:
+    workflows: ["Build Packages"]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-info
+  cancel-in-progress: false
+
+jobs:
+  update-info:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.event == 'push')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 0
+
+      - name: Update LastUpdated
+        id: update
+        run: |
+          set -euo pipefail
+
+          base="$(git log --format=%H --grep='^Workflow: Updated LastUpdated' -n 1 -- Info.yml)"
+          if [ -z "$base" ]; then
+            base="$(git log --format=%H -n 1 -- Info.yml)"
+          fi
+          if [ -z "$base" ]; then
+            base="$(git rev-list --max-parents=0 HEAD)"
+          fi
+          echo "Comparing package changes from $base to HEAD"
+
+          python3 UpdateInfo.py --base "$base" --head HEAD --output "$GITHUB_OUTPUT"
+
+      - name: Commit and push
+        if: steps.update.outputs.changed == 'true'
+        env:
+          PACKAGES: ${{ steps.update.outputs.packages }}
+          BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          set -euo pipefail
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Info.yml
+          git commit -m "Workflow: Updated LastUpdated $PACKAGES"
+          git pull --rebase origin "$BRANCH"
+          git push origin "HEAD:$BRANCH"
