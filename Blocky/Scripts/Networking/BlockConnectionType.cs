@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System;
 using System.Collections.Generic;
 
@@ -63,3 +64,4 @@ namespace Assets.Scripts.Networking.Blocky
         }
     }
 }
+#endif

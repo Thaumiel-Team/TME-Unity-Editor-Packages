@@ -1,4 +1,5 @@
-﻿using System;
+#if UNITY_EDITOR
+using System;
 using System.Collections.Generic;
 
 namespace Assets.Scripts.Networking.Blocky
@@ -15,3 +16,4 @@ namespace Assets.Scripts.Networking.Blocky
         public string Timestamp;
     }
 }
+#endif

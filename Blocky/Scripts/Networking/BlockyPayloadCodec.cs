@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -82,22 +83,22 @@ namespace Assets.Scripts.Networking.Blocky
             switch (token.Type)
             {
                 case JTokenType.Object:
-                {
-                    Dictionary<string, object> clean = new();
-                    foreach (JProperty prop in ((JObject)token).Properties())
-                        clean[prop.Name] = NormalizeToken(prop.Value);
+                    {
+                        Dictionary<string, object> clean = new();
+                        foreach (JProperty prop in ((JObject)token).Properties())
+                            clean[prop.Name] = NormalizeToken(prop.Value);
 
-                    return clean;
-                }
+                        return clean;
+                    }
 
                 case JTokenType.Array:
-                {
-                    List<object> clean = new();
-                    foreach (JToken item in (JArray)token)
-                        clean.Add(NormalizeToken(item));
+                    {
+                        List<object> clean = new();
+                        foreach (JToken item in (JArray)token)
+                            clean.Add(NormalizeToken(item));
 
-                    return clean;
-                }
+                        return clean;
+                    }
 
                 case JTokenType.Integer:
                     return token.Value<long>();
@@ -148,3 +149,4 @@ namespace Assets.Scripts.Networking.Blocky
         }
     }
 }
+#endif

@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -60,8 +61,11 @@ namespace Assets.Scripts.Networking.Blocky
             EditorApplication.quitting += StopServer;
             AssemblyReloadEvents.beforeAssemblyReload += StopServer;
 
-            if (AutoStart)
-                StartServer();
+            EditorApplication.delayCall += () =>
+            {
+                if (AutoStart)
+                    StartServer();
+            };
         }
 
         private static void EditorUpdate()
@@ -182,7 +186,7 @@ namespace Assets.Scripts.Networking.Blocky
                         CodeExportPayload payload = _des.Deserialize<CodeExportPayload>(yaml);
                         if (payload != null)
                             BlockyPayloadCodec.Normalize(payload);
-                            
+
                         Enqueue(() => OnCodeExport?.Invoke(payload, ActiveTargetEvent));
                         break;
 
@@ -529,7 +533,7 @@ namespace Assets.Scripts.Networking.Blocky
                 Debug.LogWarning("[BlocklyServer] No client connected message dropped.");
                 return;
             }
-            
+
             _client.SendText(_ser.Serialize(data));
         }
 
@@ -542,3 +546,4 @@ namespace Assets.Scripts.Networking.Blocky
         }
     }
 }
+#endif

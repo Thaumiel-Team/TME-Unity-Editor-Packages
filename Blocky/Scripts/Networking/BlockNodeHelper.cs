@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Components.Tools.Helpers;
+#if UNITY_EDITOR
+using Assets.Scripts.Components.Tools.Helpers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -265,3 +266,4 @@ namespace Assets.Scripts.Networking.Blocky
         }
     }
 }
+#endif

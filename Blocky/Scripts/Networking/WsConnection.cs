@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System;
 using System.Collections.Concurrent;
 using System.IO;
@@ -303,3 +304,4 @@ namespace Assets.Scripts.Networking.Blocky
         }
     }
 }
+#endif

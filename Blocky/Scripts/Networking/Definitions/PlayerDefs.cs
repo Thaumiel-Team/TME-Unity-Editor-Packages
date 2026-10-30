@@ -1,6 +1,8 @@
+#if UNITY_EDITOR
 using System.Collections.Generic;
 using System.Numerics;
 using Assets.Scripts.Enums;
+using Assets.Scripts.Networking.Blocky;
 
 namespace Assets.Scripts.Networking.Blocky.Definitions
 {
@@ -610,3 +612,4 @@ namespace Assets.Scripts.Networking.Blocky.Definitions
         }
     }
 }
+#endif

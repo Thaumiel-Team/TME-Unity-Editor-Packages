@@ -1,4 +1,6 @@
-﻿using Assets.Scripts.Enums;
+#if UNITY_EDITOR
+using Assets.Scripts.Enums;
+using Assets.Scripts.Networking.Blocky;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -250,3 +252,4 @@ namespace Assets.Scripts.Networking.Blocky.Definitions
         }
     }
 }
+#endif

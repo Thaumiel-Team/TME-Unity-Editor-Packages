@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+#if UNITY_EDITOR
+using System.Collections.Generic;
 
 namespace Assets.Scripts.Networking.Blocky
 {
@@ -359,3 +360,4 @@ namespace Assets.Scripts.Networking.Blocky
         public string Explanation { get; set; }
     }
 }
+#endif

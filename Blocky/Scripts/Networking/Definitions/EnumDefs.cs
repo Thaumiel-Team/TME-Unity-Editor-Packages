@@ -1,9 +1,11 @@
+#if UNITY_EDITOR
+using Assets.Scripts.Networking.Blocky;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 namespace Assets.Scripts.Networking.Blocky.Definitions
@@ -63,7 +65,7 @@ namespace Assets.Scripts.Networking.Blocky.Definitions
                     MethodInfo enumOptionsMethod = typeof(DefBase).GetMethod(nameof(EnumOptions)).MakeGenericMethod(type);
                     (string label, string value)[] options = ((string label, string value)[])enumOptionsMethod.Invoke(null, null);
 
-                    string humanName = type.HumanName();
+                    string humanName = ObjectNames.NicifyVariableName(type.Name);
                     string idBase = $"enum_{humanName.Replace(' ', '_').ToLower()}";
                     bool isFlag = type.GetCustomAttribute<FlagsAttribute>() != null;
                     string finalId = isFlag ? $"{idBase}_flag" : idBase;
@@ -94,7 +96,7 @@ namespace Assets.Scripts.Networking.Blocky.Definitions
                         Color = "#29d4ff",
                         Tooltip = "Enum value.",
                         Explanation = "Picks one " + humanName + " value from the dropdown.",
-                        Message = $"{type.HumanName()}: %1",
+                        Message = $"{humanName}: %1",
                         Connections = BlockConnectionType.Output,
                         Args = new List<Dictionary<string, object>>
                         {
@@ -110,3 +112,4 @@ namespace Assets.Scripts.Networking.Blocky.Definitions
         }
     }
 }
+#endif

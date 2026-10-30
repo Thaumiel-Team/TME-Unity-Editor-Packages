@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
+#if UNITY_EDITOR
 using Assets.Scripts.Networking.Blocky.Definitions;
+using System.Collections.Generic;
 using UnityEditor;
 
 namespace Assets.Scripts.Networking.Blocky
@@ -50,3 +51,4 @@ namespace Assets.Scripts.Networking.Blocky
         }
     }
 }
+#endif

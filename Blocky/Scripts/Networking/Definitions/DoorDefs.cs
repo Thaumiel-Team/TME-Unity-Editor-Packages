@@ -1,5 +1,7 @@
-using System.Collections.Generic;
+#if UNITY_EDITOR
 using Assets.Scripts.Enums;
+using Assets.Scripts.Networking.Blocky;
+using System.Collections.Generic;
 
 namespace Assets.Scripts.Networking.Blocky.Definitions
 {
@@ -35,6 +37,68 @@ namespace Assets.Scripts.Networking.Blocky.Definitions
             RegisterDoorIsClosed();
             RegisterDoorIsOpening();
             RegisterGetProperty();
+            RegisterDoorEvents();
+        }
+
+        private void RegisterDoorEvents()
+        {
+            RegisterDoorEvent(
+                "door_destroyed_event",
+                "Door Destroyed",
+                "OnDoorDestroyed",
+                "Runs once when this door is destroyed.",
+                "Fires when the door breaks. The door variable is the door that was destroyed.");
+
+            RegisterDoorEvent(
+                "door_opened_event",
+                "Door Opened",
+                "OnDoorOpened",
+                "Runs when this door opens.",
+                "Fires when the door opens. The door variable is the door that opened.");
+
+            RegisterDoorEvent(
+                "door_closed_event",
+                "Door Closed",
+                "OnDoorClosed",
+                "Runs when this door closes.",
+                "Fires when the door closes. The door variable is the door that closed.");
+
+            RegisterDoorEvent(
+                "door_locked_event",
+                "Door Locked",
+                "OnDoorLocked",
+                "Runs when this door is locked.",
+                "Fires when the door becomes locked. The door variable is the door that was locked.");
+
+            RegisterDoorEvent(
+                "door_damaged_event",
+                "Door Damaged",
+                "OnDoorDamaged",
+                "Runs when this door takes damage.",
+                "Fires whenever the door is damaged. The door variable is the door that was damaged.");
+
+            RegisterDoorEvent(
+                "door_unlocked_event",
+                "Door Unlocked",
+                "OnDoorUnlocked",
+                "Runs when this door is unlocked.",
+                "Fires when the door becomes unlocked. The door variable is the door that was unlocked.");
+        }
+
+        private static void RegisterDoorEvent(string id, string label, string method, string tooltip, string explanation)
+        {
+            BlocklyServer.RegisterEvent(new BlockEvent
+            {
+                Id = id,
+                Label = label,
+                Method = method,
+                Params = new List<BlockEventParam>
+                {
+                    BlockEventParam.Var("door", "Door")
+                },
+                Tooltip = tooltip,
+                Explanation = explanation
+            });
         }
 
         private void RegisterGetProperty()
@@ -259,3 +323,4 @@ namespace Assets.Scripts.Networking.Blocky.Definitions
         }
     }
 }
+#endif

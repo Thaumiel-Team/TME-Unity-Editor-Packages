@@ -1,3 +1,5 @@
+#if UNITY_EDITOR
+using Assets.Scripts.Networking.Blocky;
 using System.Collections.Generic;
 
 namespace Assets.Scripts.Networking.Blocky.Definitions
@@ -202,3 +204,4 @@ namespace Assets.Scripts.Networking.Blocky.Definitions
         }
     }
 }
+#endif
