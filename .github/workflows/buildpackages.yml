@@ -31,9 +31,24 @@ jobs:
           package-path: ${{ matrix.package }}.unitypackage
           include-files: metaList
 
-      - name: Upload to release
-        if: startsWith(github.ref, 'refs/tags/v')
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.package }}
+          path: ${{ matrix.package }}.unitypackage
+          if-no-files-found: error
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+
+      - name: Create release
         uses: softprops/action-gh-release@v2
         with:
-          files: ${{ matrix.package }}.unitypackage
-          fail_on_unmatched_files: true
+          files: dist/*.unitypackage
